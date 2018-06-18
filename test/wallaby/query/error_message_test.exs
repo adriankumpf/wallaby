@@ -8,14 +8,15 @@ defmodule Wallaby.Query.ErrorMessageTest do
     test "when the results are more then the expected count" do
       message =
         Query.css(".test", count: 1)
-        |> Map.put(:result, [1,2,3])
+        |> Map.put(:result, [1, 2, 3])
         |> ErrorMessage.message(:not_found)
         |> format
 
-      assert message == format """
-      Expected to find 1, visible element that matched the css '.test' but 3, visible
-      elements were found.
-      """
+      assert message ==
+               format("""
+               Expected to find 1, visible element that matched the css '.test' but 3, visible
+               elements were found.
+               """)
     end
 
     test "when the result is empty" do
@@ -25,10 +26,11 @@ defmodule Wallaby.Query.ErrorMessageTest do
         |> ErrorMessage.message(:not_found)
         |> format
 
-      assert message == format """
-      Expected to find 1, visible element that matched the css '.test' but 0, visible
-      elements were found.
-      """
+      assert message ==
+               format("""
+               Expected to find 1, visible element that matched the css '.test' but 0, visible
+               elements were found.
+               """)
     end
 
     test "when the result is 1" do
@@ -38,10 +40,11 @@ defmodule Wallaby.Query.ErrorMessageTest do
         |> ErrorMessage.message(:not_found)
         |> format
 
-      assert message == format """
-      Expected to find 3, visible elements that matched the css '.test' but
-      only 1, visible element was found.
-      """
+      assert message ==
+               format("""
+               Expected to find 3, visible elements that matched the css '.test' but
+               only 1, visible element was found.
+               """)
     end
 
     test "when the result is less then the minimum result" do
@@ -51,36 +54,39 @@ defmodule Wallaby.Query.ErrorMessageTest do
         |> ErrorMessage.message(:not_found)
         |> format
 
-      assert message == format """
-      Expected to find at least 3, visible elements that matched the css
-      '.test' but only 1, visible element was found.
-      """
+      assert message ==
+               format("""
+               Expected to find at least 3, visible elements that matched the css
+               '.test' but only 1, visible element was found.
+               """)
     end
 
     test "when the result is more then the maximum" do
       message =
         Query.css(".test", minimum: 3, maximum: 5)
-        |> Map.put(:result, [1,2,3,4,5,6])
+        |> Map.put(:result, [1, 2, 3, 4, 5, 6])
         |> ErrorMessage.message(:not_found)
         |> format
 
-      assert message == format """
-      Expected to find no more then 5, visible elements that matched the css
-      '.test' but 6, visible elements were found.
-      """
+      assert message ==
+               format("""
+               Expected to find no more then 5, visible elements that matched the css
+               '.test' but 6, visible elements were found.
+               """)
     end
 
     test "when the result is supposed to be invisible" do
       message =
         Query.css(".test", count: 1, visible: false)
-        |> Map.put(:result, [1,2,3])
+        |> Map.put(:result, [1, 2, 3])
         |> ErrorMessage.message(:not_found)
         |> format
 
-      assert message == format """
-      Expected to find 1, invisible element that matched the css '.test' but 3,
-      invisible elements were found.
-      """
+      assert message ==
+               format("""
+               Expected to find 1, invisible element that matched the css '.test' but 3,
+               invisible elements were found.
+               """)
     end
 
     test "when the minimum is set less then the maximum" do
@@ -97,17 +103,21 @@ defmodule Wallaby.Query.ErrorMessageTest do
         Query.text("test")
         |> ErrorMessage.message(:not_found)
         |> format
-      assert message == format """
-      Expected to find 1, visible element with the text 'test' but 0, visible elements with the text were found.
-      """
+
+      assert message ==
+               format("""
+               Expected to find 1, visible element with the text 'test' but 0, visible elements with the text were found.
+               """)
 
       message =
         Query.text("test", count: 2)
         |> ErrorMessage.message(:not_found)
         |> format
-      assert message == format """
-      Expected to find 2, visible elements with the text 'test' but 0, visible elements with the text were found.
-      """
+
+      assert message ==
+               format("""
+               Expected to find 2, visible elements with the text 'test' but 0, visible elements with the text were found.
+               """)
     end
   end
 

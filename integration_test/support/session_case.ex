@@ -20,13 +20,14 @@ defmodule Wallaby.Integration.SessionCase do
       |> Keyword.merge(opts)
 
     with {:ok, session} <- retry(2, fn -> Wallaby.start_session(session_opts) end),
-      do: {:ok, session}
+         do: {:ok, session}
   end
 
   @doc """
   Injects a test session into the test context
   """
   def inject_test_session(%{skip_test_session: true}), do: :ok
+
   def inject_test_session(_context) do
     {:ok, session} = start_test_session()
 
@@ -34,6 +35,7 @@ defmodule Wallaby.Integration.SessionCase do
   end
 
   defp retry(0, f), do: f.()
+
   defp retry(times, f) do
     case f.() do
       {:ok, session} -> {:ok, session}
@@ -42,11 +44,13 @@ defmodule Wallaby.Integration.SessionCase do
   end
 
   defp default_opts_for_driver("phantom"), do: []
+
   defp default_opts_for_driver("selenium") do
-    [driver: Wallaby.Experimental.Selenium,
-     capabilities: %{browserName: "firefox"}]
+    [driver: Wallaby.Experimental.Selenium, capabilities: %{browserName: "firefox"}]
   end
+
   defp default_opts_for_driver("chrome"), do: [driver: Wallaby.Experimental.Chrome]
+
   defp default_opts_for_driver(other) do
     raise "Unknown value for WALLABY_DRIVER environment variable: #{other}"
   end
